@@ -1,0 +1,121 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="valle-switch">
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+      }
+
+			.input {
+				display: none;
+			}
+
+			.label {
+				margin: 0 10px;
+				font-size: 14px;
+				font-family: sans-serif;
+				color: var(--valle-label-switch-color, #666666);
+			}
+
+			.toggle {
+				position: relative;
+				cursor: pointer;
+  			outline: none;
+				user-select: none;
+				width: 60px;
+				height: 30px;
+				background-color: var(--valle-switch-background, #dddddd);
+				border-radius: 30px;
+				transition: background-color .4s;
+				display: inline-flex;
+				align-items: center;
+				vertical-align: middle;
+				box-sizing: border-box;
+				padding: 0 3.5px;
+			}
+
+			.toggle::after {
+				content: "";
+				display: block;
+				width: 23px;
+				height: 23px;
+				background-color: var(--valle-switch-toggle, #81898a);
+				border-radius: 50%;
+				transition: transform .4s, background-color .4s;
+			}
+
+			.input:checked + .toggle {
+				background-color: var(--valle-switch-background-checked, #cbefd8);
+			}
+
+			.input:checked + .toggle::after {
+				transform: translateX(30px);
+				background-color: var(--valle-switch-toggle-checked, #62aeb3);
+			}
+
+			.input:disabled + .toggle {
+				pointer-events: none;
+			}
+
+			.input:disabled + .toggle::after {
+				opacity: .5;
+			}
+
+    </style>
+
+		<label class="label" for="input">[[labelLeft]]</label>
+
+		<input
+			id="input"
+			class="input"
+			type="checkbox"
+		/>
+		<label class="toggle" for="input"></label>
+
+		<label class="label" for="input">[[labelRight]]</label>
+
+  </template>
+
+  <script>
+    class valleSwitch extends Polymer.Element {
+
+      static get is() { return 'valle-switch'; }
+
+			_toogleDisabled(disabled) {
+        disabled
+          ? this.$.input.setAttribute('disabled', true)
+          : this.$.input.removeAttribute('disabled');
+      };
+
+			_toogleChecked(checked) {
+        checked
+          ? this.$.input.setAttribute('checked', true)
+          : this.$.input.removeAttribute('checked');
+      };
+
+      static get properties() {
+        return {
+          labelLeft: String,
+					labelRight: String,
+					checked: {
+						type: Boolean,
+						value: false,
+						reflectToAttribute: true,
+            observer: '_toogleChecked'
+					},
+					disabled: {
+						type: Boolean,
+						value: false,
+						reflectToAttribute: true,
+            observer: '_toogleDisabled'
+					}
+        };
+      }
+    }
+
+    window.customElements.define(valleSwitch.is, valleSwitch);
+  </script>
+</dom-module>
