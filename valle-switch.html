@@ -70,7 +70,7 @@
 		<input
 			id="input"
 			class="input"
-			type="checkbox"
+      type="checkbox"
 		/>
 		<label class="toggle" for="input"></label>
 
@@ -83,6 +83,20 @@
 
       static get is() { return 'valle-switch'; }
 
+      ready() {
+        super.ready();
+
+        this.addEventListener('click', () => {
+          if (this.checked) {
+            console.log('sdjhbf')
+            this.checked = false;
+          } else {
+            console.log('hudbsjhfbdskjfa')
+            this.checked = true;
+          }
+        });
+      }
+
 			_toogleDisabled(disabled) {
         disabled
           ? this.$.input.setAttribute('disabled', true)
@@ -90,9 +104,11 @@
       };
 
 			_toogleChecked(checked) {
-        checked
-          ? this.$.input.setAttribute('checked', true)
-          : this.$.input.removeAttribute('checked');
+        if (checked) {
+          this.$.input.setAttribute('checked', true);
+        } else {
+          this.$.input.removeAttribute('checked');
+        }
       };
 
       static get properties() {
